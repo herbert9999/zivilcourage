@@ -1,0 +1,331 @@
+<!DOCTYPE HTML >
+
+<head>
+
+<meta charset="UTF-8">
+
+<!-- Daten nicht Cachen -->
+<meta http-equiv="expires" content="0">
+<meta name="apple-mobile-web-app-capable" content="yes" >
+
+<!-- Nutzer kann BS nicht skalieren!
+         siehe dazu http://www.lingulo.com/de/tutorials-de/css-tutorials/how-to-build-a-html5-website-from-scratch
+-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui" />
+
+<!-- Reihenfolge beim Laden beachten!  -->
+<!-- getestet, funktioniert:
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+-->
+
+<script  src="js/jquery-3.1.1.min.js"></script>
+<script  src="js/functions.js"></script>
+<link    type="text/css" href="js/slideshow.css" rel="stylesheet">
+
+<title>Der Sohn</title>
+
+<script>
+var currentTime = 11; // Beginn des Zaehlers
+
+var flgStartCounter = false;
+var flgStartSlideShow = false;
+var flgContentLoaded = false;
+var flgLandscape = false;
+var timerCountdown;
+
+window.addEventListener('orientationchange', handleOrientationChange);
+ window.addEventListener('deviceorientation', getDeviceOrientation);
+
+function handleOrientationChange() {
+         if ( (orientation == 0) || (orientation == 180) ) {
+                 flgPortrait = true;
+                 flgLandscape = false;
+                 // Seite neu laden:
+                 // Bei location.reload: Seite verschiebt sich gelegentlich im Browser
+                 //go to the history of the page and set it to zero.
+                 history.go(0);
+         }
+
+         if ( (orientation == 90)|| (orientation == -90) ) {
+                 flgPortrait = false;
+                 flgLandscape = true;
+                 if(flgStartCounter){
+                         fnStartCountdown();
+                 }
+         }
+}
+
+function fnInit(){
+         //=================================================
+         // Die folgenden Elemente sind noch nicht nutzbar => "ausgegraut":
+         $( "#btnNoReturn" ).prop( "disabled", true );
+         $( "#btnNoReturn" ).css("border", "1px solid grey");
+         $( "#btnNoReturn" ).css("color", "grey");
+         $( "#btnNoReturn" ).css("cursor", "none");
+
+         $( "#btnHistory" ).prop( "disabled", true );
+         $( "#btnHistory" ).css("border", "1px solid grey");
+         $( "#btnHistory" ).css("color", "grey");
+         $( "#btnHistory" ).css("cursor", "none");
+         //=================================================
+         //fnFontResize();
+}
+
+$(document).on("click",function(event){
+                 var targetElement = event.target;
+                 var targetSource = targetElement.id.toUpperCase();
+
+                 switch ( targetSource ){
+                         case "BTNSOHN":
+                         case "BTNHISTORY":
+                         case "BTNNORETURN":
+                               $('#divSelectPerformance').css('visibility','hidden');
+                               $('#divHeadphone').css('visibility','visible');
+                               $('#divCardboard').css('visibility','hidden');
+                               $('#divVideo').css('visibility','hidden');
+
+                                 if (targetSource == "BTNSOHN"){
+                                         fnInsertContent("js/content_sohn.js");
+                                 }
+                                 if (targetSource == "BTNHISTORY"){
+                                         fnInsertContent("js/content_history.js");
+                                 }
+
+                                 if (targetSource == "BTNNORETURN"){
+                                         fnInsertContent("js/content_noreturn.js");
+                                 }
+                               return;
+                               break;
+
+                         case "BTNSCHMIDT":
+                                 $('#divSelectPerformance').css('visibility','hidden');
+                                 $('#divHeadphone').css('visibility','hidden');
+                                 $('#divCardboard').css('visibility','hidden');
+                                 $('#divSlideShow').css('visibility','hidden');
+                                 $('#divVideo').css('visibility','visible');
+
+                                 $('#idVideo').attr('src', 'medien/schmidt_henry_320x240.mp4');
+                                 document.getElementById("idVideo").play();
+                                 break;
+
+                         case "IMGAUDIOPLAY":
+                                 $('#btnWeiter').css('visibility','visible');
+                              // Pruefen der Lautstaerke
+                                 if( $('#imgAudioPlay').attr('src') == "pic/btn_play.jpg" ){
+                                         fnCheckVolume ("PLAY");
+                                         $('#imgAudioPlay').attr('src','pic/btn_pause.jpg');
+                                         break;
+                                 }
+
+                                 if( $('#imgAudioPlay').attr('src') == "pic/btn_pause.jpg" ){
+                                         fnCheckVolume ("PAUSE");
+                                         $('#imgAudioPlay').attr('src','pic/btn_play.jpg');
+                                         break;
+                                 }
+                                 break;
+
+                         case "BTNWEITER":
+                               fnCheckVolume ("PAUSE"); 
+                               $('#divHeadphone').css('visibility','hidden');
+
+                               // btnWeiter muesste eigentlich mit divHeadphone-hidden verschwinden. Tuts aber nicht.
+                               $('#btnWeiter').css('visibility','hidden');
+                               $('#divCardboard').css('visibility','visible');
+
+                               flgStartCounter = true;
+                               flgStartSlideShow = false;
+                               //alert (flgLandscape)
+                               // Wenn schon vorher Querformat => dann sofort zum Countdown
+                               if(flgLandscape){
+                                 fnStartCountdown();
+                               }
+                               break;
+
+                         //Aufheben fuer Loesung, wenn Orientation-Change nicht funktioniert.
+                         case"BTNSTART":
+                              fnStartCountdown();
+                              break;
+
+                         default:
+                             // alle anderen Clicks ignorieren
+                             return
+                 }
+});
+
+
+function fnStartCountdown(){
+         $('#divCardboard').css('visibility','hidden');
+
+         currentTime = currentTime -1;
+         $('#divCounter').css('visibility','visible');
+
+
+         $( '#divCounterLeft' ).html(currentTime);
+         $( '#divCounterRight' ).html(currentTime);
+         $('#divTrennerCountdown').css('visibility','visible');
+
+         if (currentTime < 1 ){
+                 clearTimeout(timerCountdown);
+                 fnPrepareStartSlideShow();
+                 flgStartSlideShow = true;
+                 fnStartSlideshow();
+                 return;
+         }
+         timerCountdown = setTimeout(function(){ fnStartCountdown() }, 1000);
+
+}
+
+function fnPrepareStartSlideShow(){
+
+         $('#divCounterLeft').css('visibility','hidden');
+         $('#divCounterRight').css('visibility','hidden');
+         $('#divSlideShow').css('visibility','visible');
+
+         if ( !flgContentLoaded ){
+                 alert("Ladevorgang dauert laenger als gewoehnlich ...")
+         return;
+      }
+}
+
+
+function fnInsertContent(contentFile){
+         fnSwitchIconPreload("VISIBLE")
+         var head= document.getElementsByTagName('head')[0];
+         var script= document.createElement('script');
+         script.type= 'text/javascript';
+         script.src= contentFile;
+         head.appendChild(script);
+
+         // Das Laden erfolgt asynchron. Deshalb pruefen, ob Script geladen - erst danach weitere Verarbeitung.
+         script.onload = function () {
+                 //fnSwitchIconPreload("HIDDEN")
+
+                 flgContentLoaded = true;
+                 fnPreloadPics ();
+         }
+}
+
+function fnPreloadPics(){
+         var n = 1;
+         var picPreload = new Image()
+
+         fnSwitchIconPreload("VISIBLE")
+         while ( n < arrDialog.length ){
+                 picPreload.src = arrPicture_L[n];
+         n++
+        }
+        fnSwitchIconPreload("HIDDEN")
+}
+
+</script>
+
+</head>
+
+<body id="body"  onload="fnInit()">
+
+<div id="divTrennerCountdown" style="visibility:hidden"></div>
+
+<!-- Auswahl des Programmes -->
+<div id="divSelectPerformance" >
+
+         <div id="divTitlePerformance">DER SOHN</div>
+
+          <div id="divButtonsPerformance">
+                  <button id="btnSohn">Der Sohn - Eine Bildgeschichte</button>
+                  <button id="btnHistory">Judenverfolgung 1933 - 1945</button>
+                  <button id="btnNoReturn">Von da kommt keiner zur&uuml;ck.</button>
+                  <button id="btnSchmidt">Henry Schmidt - der Film zum Prozess</button>
+         </div>
+</div>
+
+
+<!-- Kopfhoerer einrichten -->
+<div id="divHeadphone" style="visibility:hidden">
+        <div id="divTextHeadPhone" >
+                 Bitte stelle die Lautst&auml;rke ein.
+        </div>
+
+        <div id="divImgHeadPhone">
+                 <img id="imgHeadphone" src="pic/headphone_240x160_01.jpg" alt="imgHeadphone">
+                 <img id="imgAudioPlay" src="pic/btn_play.jpg" alt="imgAudioPlay">
+        </div>
+
+         <div id="divBtnWeiter" style="visibility: hidden">
+                <button id="btnWeiter">weiter ...</button>
+         </div>
+
+</div>
+
+<div id="divCardboard" style="visibility:hidden">
+         <div id="divTextStart">Handy drehen<br>und in's Cardboard: Los!</div>
+
+         <!--
+         Aufheben als Notloesung fuer Test am PC
+         <div id="divBtnStart" >
+                <button id="btnStart">Schon im Cardboard? Dann los!</button>
+         </div>
+         -->
+
+         <div id="divImgCardboard">
+                 <img id="imgCardboard" src="pic/cardboard_240x294_01.jpg" alt="imgCardboard">
+        </div >
+
+</div>
+
+<div id ="divCounter" style="visibility:hidden">
+         <div id="divCounterLeft"></div >
+         <div id="divCounterRight"></div >
+</div>
+
+<!-- in Cardboard anzeigen -->
+<div id="divSlideShow" style="visibility:hidden">
+         <!-- Trennung Bildschirm rechten und linken Teil -->
+         <div id="divTrenner"></div>
+
+         <!-- Linkes Auge: Zwei ueberenander liegende Bilder  -->
+         <div id="divLeft_1" ><img id="imgLeft_1" src="pic/dummy_1x1.png"  alt="links, Bild links 1" ></div>
+
+
+         <!-- Text wird aus Content.js ausgelesen    -->
+         <div id="divTextLeft_1"></div>
+
+         <div id="divLeft_2"><img id="imgLeft_2" src="pic/dummy_1x1.png" alt="links, Bild links 2"></div>
+         <div id="divTextLeft_2"></div>
+
+
+         <!-- Rechts Auge: Zwei ueberenander liegende Bilder  -->
+         <div id="divRight_1" ><img id="imgRight_1" src="pic/dummy_1x1.png" alt="links, Bild links 1" ></div>
+         <div id="divTextRight_1"></div>
+
+         <div id="divRight_2"><img id="imgRight_2" src="pic/dummy_1x1.png" alt="links, Bild links 2" ></div>
+         <div id="divTextRight_2"></div>
+
+
+         <!-- Anzeige der Bild=Segment-Nummern  -->
+         <div id="divNrSegmentLeft_1"></div>
+         <div id="divNrSegmentRight_1"></div>
+
+
+
+         <!-- rotierende Lade-Anzeige -->
+         <div id="divPreloadLeft"><img id="imgPreloadLeft" src="pic/preload_2.gif" alt="preload"></div>
+         <div id="divPreloadRight"><img id="imgPreloadRight" src="pic/preload_2.gif" alt="preload"></div>
+
+
+
+</div>
+
+<div id="divVideo" style="visibility:hidden">
+      <video id="idVideo" class="video" controls >
+        <source src="pic/dummy_1x1.png" type="video/mp4">
+        Ihr Browser unterst&uuml;tzt leider nicht die Video-Wiedergabe.
+      </video>
+</div>
+
+<!-- Beim Testen: Ausgabe von Infos; Mit readonly verhindern, dass bei Smartphone die Tastatur gezeigt wird -->
+<div id="divAnzeige" style="visibility:hidden">
+         <textarea id="anzeige" rows="5" cols="50" readonly="readonly" >
+         </textarea>
+</div>
+</body>
+</html>

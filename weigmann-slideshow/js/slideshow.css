@@ -1,0 +1,310 @@
+/* Auf Leerzeichen achten! */
+/* Momentan noch alle Angaben fuer iPhone 5: 548x320 */
+
+#body{
+     height: 100%;
+     background-color: white;
+     font-family: Arial, Helvetica, sans-serif;
+     font-size:40%;
+     overflow: hidden;
+}
+/* -----------------------------------------------*/
+#divSelectPerformance{
+     position: absolute;
+     top: 10%;
+     width: 100%;
+     height: 90%;
+     margin-left:auto;
+     margin-right:auto;
+     z-index: 1;
+}
+
+#divTitlePerformance {
+     position: absolute;
+     top: 0%;
+     width: 100%;
+     text-align: center;
+     font-size: 2.3em;
+     font-weight: bold;
+     color: black;
+     z-index: 5;
+}
+
+#divButtonsPerformance {
+         position: absolute;
+         top:0%;
+         height: 65%;
+         width: 100%;
+         margin-top:10%;
+         text-align: center;
+         z-index: 1;
+}
+
+#divHeadphone, #divCardboard {
+     position: absolute;
+     top: 5%;
+     width: 100%;
+     height: 90%;
+     margin-left: auto;
+     margin-right: auto;
+     text-align:center; /* Damit auch folgende Bilder zentriert */
+     z-index: 5;
+}
+
+#divTextHeadPhone, #divTextStart {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: none;
+    font-size: 2.3em;
+    z-index: 1;
+}
+#divImgHeadPhone, #divImgCardboard {
+         position:absolute;
+         top:15%;
+         width:100%;
+         border:none;
+         z-index: 1;
+}
+
+#divImgCardboard {
+         top:10%;
+}
+
+#divBtnWeiter {
+         position:absolute;
+         top:60%;
+         width:100%;
+         height:60%;
+         z-index: 1;
+
+}
+
+#divCounterLeft, #divCounterRight {
+         position:absolute;
+         top: 35%;
+         left: 20%; /* Schriftbreite beruecksichtigen */
+         border: none;
+         font-family: arial;
+         font-weight: bold;
+         font-size: 20em;
+         background:white;
+         color: grey;
+         z-index: 15;
+}
+
+#divCounterRight{
+  left: 70%;
+}
+
+#divBtnStart {
+         position:absolute;
+         top:70%;
+         width:100%;
+         height:60%;
+         z-index: 1;
+
+}
+
+#btnSohn,#btnHistory, #btnNoReturn, #btnSchmidt, #btnWeiter,#btnStart {
+         width:80%;
+         height: 20%;
+         margin: 0.8% 0%;
+         border: 1px solid black;
+         background:white;
+         color: black;
+         text-align: center;
+         font-size: 2.3em;
+         border-radius: 8px;
+         cursor: pointer;
+}
+
+#btnSchmidt {
+         margin: 4% 0%;
+}
+
+/*----------------------------------------------------------*/
+#imgHeadphone, imgCardboard {
+         width: 40%;
+         z-index: 1;
+}
+
+#imgAudioPlay, #imgAudioPause {
+         width: 12%;
+         cursor: pointer;
+         z-index: 1;
+}
+
+/*----------------------------------------------------------*/
+#divSlideShow{
+     position: absolute;
+     width: 100%;
+
+     height: 100%; /* Muss gesetzt werden: Damit kann die verfuegbare (!) Hoehe ermittelt werden */
+     left: 0px;
+     z-index: 1;
+}
+
+#divLeft_1, #divLeft_2, #divRight_1, #divRight_2 {
+         position: absolute;
+         width:48%;    /* 50% minus Breite des vertikalen links-rechts-Trenn-Balkens */
+         height: 100%;
+         top: 0px;
+         border: none;
+         z-index: 10;
+}
+#divTextLeft_1, #divTextLeft_2, #divTextRight_1, #divTextRight_2{
+         position: absolute;
+         width:40%;
+         height: 100%;
+         top: 0%;
+         margin-right:0%;
+         margin-top:2%;
+         border: none;
+         font-family: arial;
+         font-weight: normal;
+         z-index: 15;
+}
+
+
+/* sichtbare Nummerierung der Semente */
+#divNrSegmentLeft_1, #divNrSegmentRight_1{
+         position:absolute;
+         left: 25%;
+         top: 1%;
+         border: 1px solid grey;
+         border-radius: 20px;
+         text-align: left;
+         font-family: arial;
+         text-decoration: none;
+         font-weight: bold;
+         font-size: 2em;
+         color: grey;
+         background-color: white;
+         z-index: 20;
+}
+#divNrSegmentRight_1{
+         left: 75%;
+}
+
+#divAmpelLeft, #divAmpelRight {
+         position: absolute;
+         top: 0%;
+         left: 45%;
+         /*width:50%; */
+         z-index: 20;
+}
+#divAmpelRight {
+         left: 75%;
+}
+#imgAmpelLeft, #imgAmpelRight {
+         width: 50%;
+}
+
+#imgLeft_1, #imgLeft_2, #imgRight_1, #imgRight_2{
+         position: absolute;
+         border: 1px solid grey;
+         width: 100%;
+         z-index: 20;
+}
+
+/* ------------------------------------ */
+#divPreloadLeft, #divPreloadRight {
+         position: absolute;
+         top: 15%;
+         left: 20%;
+         width:100%;
+         visibility: hidden;
+         z-index: 1000;
+}
+
+#divPreloadRight {
+         left: 70%;
+}
+
+#imgPreloadLeft, #imgPreloadRight {
+         width:15%;
+}
+/* ------------------------------------ */
+#divTrenner, #divTrennerCountdown {
+         position: absolute;
+         top: 0px;
+         left: 48%;
+         height: 100%;
+         background: black;
+         border: 0px solid red;
+         width: 4%;
+         z-index: 1000;
+}
+
+#divVideo {
+  position: absolute;
+  top: 0%;
+  left:0%;
+  height: 100%;
+  z-index: 0;
+}
+
+#idVideo {
+  height: 100%;
+  z-index: 0;
+}
+/* nur zum Testen des Programmes */
+#divAnzeige {
+         position: absolute;
+         top: 50%;
+         width:90%;
+         left: 0px;
+         font-size:20pt;
+         border: 2px solid red;
+         visibility: hidden;
+         z-index: 200;
+}
+
+
+/*---------------------------------------------------------- */
+/*Verschiebung allert Texte weg vom linken Rand
+Schriftgroesse relativ zu Body; Body wird in Abh. von BS-Breite geaendert */
+h1 {
+         position: absolute;
+         left: 15%;
+         color: black;
+         text-align: left;
+         font-size: 2.0em;
+}
+
+p{
+         position: absolute;
+         left: 15%;
+         right: 15%;
+         font-size: 1em;
+}
+
+pLarge{
+         position: absolute;
+         left: 5%;
+         font-size: 1.5em;
+}
+
+/* eingerueckt; Tabulator */
+pTab{
+         position: absolute;
+         left: 15%;
+         /*margin-top: 10%; /* Unterhalb Bild-Nummer, ansonsten kommt oberer Rand durch <p> am Anfang jedes Textes */
+}
+small{
+         font-size: 0.5em;
+}
+
+/* Bildunterschrift */
+pCaption{
+         position: absolute;
+         left: 15%;
+         right: 10%;
+         width: 100%; /* bezogen auf divTexte */
+         margin-top: 60%; /* Unterhalb Bild-Nummer, ansonsten kommt oberer Rand durch <p> am Anfang jedes Textes */
+         font-size: 1.5em ;
+         text-align: left;
+         text-decoration: none;
+        color: white;
+}
